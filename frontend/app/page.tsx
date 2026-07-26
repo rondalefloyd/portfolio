@@ -1,5 +1,9 @@
 "use client";
 
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
+import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -13,9 +17,11 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import NextLink from "next/link";
 import { BsOpenai } from "react-icons/bs";
+import { FaLinkedin } from "react-icons/fa";
 import {
   SiDjango,
   SiDocker,
+  SiFacebook,
   SiFastapi,
   SiGit,
   SiNextdotjs,
@@ -263,7 +269,7 @@ export default function Home() {
               About
             </Typography>
             <Typography variant="body1" sx={{ mt: 2, maxWidth: 760, lineHeight: 1.8 }}>
-              Backend developer experienced in building AI-enabled applications, REST APIs, cloud
+              Fullstack developer experienced in building AI-enabled applications, REST APIs, cloud
               integrations, and database-backed services. I have hands-on experience with the
               OpenAI GPT Realtime API, WebRTC, retrieval-augmented generation, Google Places API,
               AWS, Azure, and backend modernization.
@@ -435,18 +441,91 @@ export default function Home() {
       </Container>
 
       <Box component="footer" sx={{ borderTop: 1, borderColor: "divider" }}>
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Stack spacing={1}>
-            <Typography variant="body2" color="text.secondary">
-              Zone 1 Liboro, Ragay, Camarines Sur, Philippines | 09516101009
+        <Container maxWidth="md" sx={{ py: { xs: 4, md: 5 } }}>
+          <Stack spacing={3}>
+            <Typography variant="h6" component="h2" sx={{ fontWeight: 700 }}>
+              Let&apos;s connect
             </Typography>
-            <Link href={`mailto:${email}`} underline="hover" sx={{ width: "fit-content" }}>
-              {email}
-            </Link>
-            <Divider sx={{ my: 1 }} />
-            <Typography variant="body2" color="text.secondary">
-              Available for backend, API, cloud, and AI integration opportunities.
-            </Typography>
+
+            <Box
+              component="address"
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+                gap: 2,
+                fontStyle: "normal",
+              }}
+            >
+              <Stack
+                direction="row"
+                spacing={1.25}
+                sx={{ alignItems: "center", gridColumn: { sm: "1 / -1" } }}
+              >
+                <LocationOnOutlinedIcon color="primary" fontSize="small" />
+                <Typography variant="body2" color="text.secondary">
+                  Zone 1 Liboro, Ragay, Camarines Sur, Philippines
+                </Typography>
+              </Stack>
+
+              <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+                <PhoneOutlinedIcon color="primary" fontSize="small" />
+                <Link
+                  href="tel:+639516101009"
+                  color="text.secondary"
+                  underline="hover"
+                  variant="body2"
+                >
+                  0951 610 1009
+                </Link>
+              </Stack>
+
+              <Stack direction="row" spacing={1.25} sx={{ alignItems: "center", minWidth: 0 }}>
+                <EmailOutlinedIcon color="primary" fontSize="small" />
+                <Link
+                  href={`mailto:${email}`}
+                  color="text.secondary"
+                  underline="hover"
+                  variant="body2"
+                  sx={{ overflowWrap: "anywhere" }}
+                >
+                  {email}
+                </Link>
+              </Stack>
+            </Box>
+
+            <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1.5 }}>
+              <Button
+                component="a"
+                href="https://www.linkedin.com/in/rondale-floyd-b-02166717a"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outlined"
+                startIcon={<FaLinkedin />}
+                sx={{ color: "text.primary", borderColor: "divider", textTransform: "none" }}
+              >
+                LinkedIn
+              </Button>
+              <Button
+                component="a"
+                href="https://www.facebook.com/rondalerondalerondale"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outlined"
+                startIcon={<SiFacebook />}
+                sx={{ color: "text.primary", borderColor: "divider", textTransform: "none" }}
+              >
+                Facebook
+              </Button>
+            </Stack>
+
+            <Divider />
+
+            <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
+              <WorkOutlineOutlinedIcon color="primary" fontSize="small" />
+              <Typography variant="body2" color="text.secondary">
+                Available for backend, API, cloud, and AI integration opportunities.
+              </Typography>
+            </Stack>
           </Stack>
         </Container>
       </Box>
