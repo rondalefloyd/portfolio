@@ -12,7 +12,6 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import NextLink from "next/link";
-import StickyNotes from "./components/StickyNotes";
 import ChatAssistant from "./components/ChatAssistant";
 
 const email = "bufete.rondalefloyd@gmail.com";
@@ -154,7 +153,6 @@ const sectionHeadingSx = {
 export default function Home() {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
-      <StickyNotes />
       <ChatAssistant />
       <Box
         component="header"
