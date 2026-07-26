@@ -13,6 +13,7 @@ import {
 
 type ColorMode = "light" | "dark";
 const colorModeStorageKey = "portfolio-color-mode";
+const brandPrimaryColor = "#35186b";
 
 export default function Providers({
   children,
@@ -39,7 +40,7 @@ export default function Providers({
         palette: {
           mode,
           primary: {
-            main: mode === "dark" ? "#90caf9" : "#1976d2",
+            main: brandPrimaryColor,
           },
         },
         components: {

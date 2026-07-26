@@ -184,7 +184,7 @@ export default function Home() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "purple",
+          bgcolor: "primary.main",
           color: "primary.contrastText",
         }}
       >
@@ -221,8 +221,12 @@ export default function Home() {
                 component="a"
                 href={`mailto:${email}`}
                 variant="contained"
-                color="primary"
-                sx={{ fontWeight: 700 }}
+                sx={{
+                  bgcolor: "#ffffff",
+                  color: "#202124",
+                  fontWeight: 700,
+                  "&:hover": { bgcolor: "#f1f3f4" },
+                }}
               >
                 Email me
               </Button>

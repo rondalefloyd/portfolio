@@ -76,7 +76,15 @@ export default function ProjectsPage() {
               href="/"
               variant="outlined"
               startIcon={<ArrowBackRoundedIcon />}
-              sx={{ fontWeight: 700 }}
+              sx={{
+                color: "text.primary",
+                borderColor: "currentColor",
+                fontWeight: 700,
+                "&:hover": {
+                  borderColor: "currentColor",
+                  bgcolor: "transparent",
+                },
+              }}
             >
               Back to portfolio
             </Button>

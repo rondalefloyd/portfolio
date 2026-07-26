@@ -74,7 +74,7 @@ export default function ChatAssistant() {
             right: 0,
             bottom: 0,
             zIndex: 1,
-            width: { xs: "calc(100vw - 24px)", sm: 360 },
+            width: { xs: "calc(100vw - 24px)", sm: 480 },
             overflow: "hidden",
             boxShadow: chatShadow,
             border: 1,
@@ -91,7 +91,7 @@ export default function ChatAssistant() {
             }}
             sx={{
               position: "relative",
-              bgcolor: "purple",
+              bgcolor: "primary.main",
               color: "#ffffff",
               px: 2,
               py: 1.5,
@@ -102,7 +102,15 @@ export default function ChatAssistant() {
             <Typography sx={{ fontWeight: 700 }}>Ask about Rondale</Typography>
             <Typography variant="caption" sx={{ opacity: 0.75 }}>AI portfolio assistant</Typography>
           </Box>
-          <Stack spacing={1} sx={{ height: 320, overflowY: "auto", p: 1.5, bgcolor: "background.default" }}>
+          <Stack
+            spacing={1}
+            sx={{
+              height: { xs: "min(427px, calc(100dvh - 180px))", sm: 427 },
+              overflowY: "auto",
+              p: 1.5,
+              bgcolor: "background.default",
+            }}
+          >
             {messages.map((message, index) => (
               <Box key={`${message.role}-${index}`} sx={{ alignSelf: message.role === "user" ? "flex-end" : "flex-start", maxWidth: "88%", bgcolor: message.role === "user" ? "primary.main" : "background.paper", color: message.role === "user" ? "primary.contrastText" : "text.primary", border: 1, borderColor: message.role === "user" ? "transparent" : "divider", borderRadius: 2, px: 1.5, py: 1, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.14)" }}>
                 <Box
@@ -158,7 +166,7 @@ export default function ChatAssistant() {
             display: "flex",
             minWidth: { xs: 48, sm: "auto" },
             px: { xs: 1.5, sm: 2 },
-            bgcolor: "purple",
+            bgcolor: "primary.main",
             color: "#ffffff",
             boxShadow: chatShadow,
             fontWeight: 700,
