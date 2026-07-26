@@ -12,6 +12,18 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import NextLink from "next/link";
+import { BsOpenai } from "react-icons/bs";
+import {
+  SiDjango,
+  SiDocker,
+  SiFastapi,
+  SiGit,
+  SiNextdotjs,
+  SiPostgresql,
+  SiPython,
+  SiTypescript,
+} from "react-icons/si";
+import { VscAzure } from "react-icons/vsc";
 import ChatAssistant from "./components/ChatAssistant";
 
 const email = "bufete.rondalefloyd@gmail.com";
@@ -78,6 +90,19 @@ const skillGroups = [
       "Monday.com",
     ],
   },
+];
+
+const featuredSkills = [
+  { label: "Python", icon: <SiPython />, color: "#3776AB" },
+  { label: "FastAPI", icon: <SiFastapi />, color: "#009688" },
+  { label: "Django", icon: <SiDjango />, color: "#092E20" },
+  { label: "PostgreSQL", icon: <SiPostgresql />, color: "#4169E1" },
+  { label: "OpenAI", icon: <BsOpenai />, color: "#10A37F" },
+  { label: "Docker", icon: <SiDocker />, color: "#2496ED" },
+  { label: "TypeScript", icon: <SiTypescript />, color: "#3178C6" },
+  { label: "Azure", icon: <VscAzure />, color: "#0078D4" },
+  { label: "Next.js", icon: <SiNextdotjs />, color: "#000000" },
+  { label: "Git", icon: <SiGit />, color: "#F05032" },
 ];
 
 const experience = [
@@ -187,7 +212,7 @@ export default function Home() {
                 Rondale Floyd M. Bufete
               </Typography>
               <Typography variant="h5" sx={{ mt: 2, fontWeight: 400 }}>
-                Backend Developer | AI & Cloud Integrations
+                Fullstack Developer | AI & Cloud Integrations
               </Typography>
             </Box>
 
@@ -248,6 +273,32 @@ export default function Home() {
             <Typography id="skills-heading" component="h2" variant="h4" sx={sectionHeadingSx}>
               Technical skills
             </Typography>
+            <Paper variant="outlined" sx={{ mt: 3, p: { xs: 2, sm: 2.5 } }}>
+              <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 700 }}>
+                Core toolkit
+              </Typography>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "repeat(2, 1fr)", sm: "repeat(5, 1fr)" },
+                  gap: { xs: 2, sm: 2.5 },
+                }}
+              >
+                {featuredSkills.map((skill) => (
+                  <Stack key={skill.label} spacing={0.75} sx={{ alignItems: "center", textAlign: "center" }}>
+                    <Box
+                      aria-hidden="true"
+                      sx={{ display: "flex", color: skill.color, fontSize: { xs: 30, sm: 34 } }}
+                    >
+                      {skill.icon}
+                    </Box>
+                    <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                      {skill.label}
+                    </Typography>
+                  </Stack>
+                ))}
+              </Box>
+            </Paper>
             <Box
               sx={{
                 display: "grid",
