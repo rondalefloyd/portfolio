@@ -21,6 +21,7 @@ export default function ChatAssistant() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Message[]>([
     { role: "model", text: "Hi! Ask me about Rondale's experience, skills, or education." },
@@ -36,20 +37,27 @@ export default function ChatAssistant() {
     if (!text || loading) return;
 
     const nextMessages = [...messages, { role: "user" as const, text }];
+    const requestMessages = nextMessages.slice(-12);
     setMessages(nextMessages);
     setInput("");
     setLoading(true);
+    requestAnimationFrame(() => inputRef.current?.focus());
 
     try {
       const response = await fetch(`${backendUrl}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages }),
+        body: JSON.stringify({ messages: requestMessages }),
       });
       const data = await response.json();
       setMessages((current) => [
         ...current,
-        { role: "model", text: response.ok ? data.text : data.error },
+        {
+          role: "model",
+          text: response.ok
+            ? data.text
+            : data.detail ?? data.error ?? "The assistant could not respond right now.",
+        },
       ]);
     } catch {
       setMessages((current) => [...current, { role: "model", text: "I could not connect right now." }]);
@@ -150,7 +158,15 @@ export default function ChatAssistant() {
             <Box ref={messagesEndRef} sx={{ height: 0 }} />
           </Stack>
           <Box component="form" onSubmit={sendMessage} sx={{ display: "flex", gap: 1, p: 1.5 }}>
-            <TextField value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask a question…" size="small" fullWidth disabled={loading} />
+            <TextField
+              inputRef={inputRef}
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder="Ask a question…"
+              size="small"
+              fullWidth
+              autoFocus
+            />
             <IconButton type="submit" color="primary" disabled={!input.trim() || loading} aria-label="Send question"><SendIcon /></IconButton>
           </Box>
         </Paper>

@@ -1,11 +1,20 @@
 import os
+from collections import deque
+from math import ceil
+from threading import Lock
+from time import monotonic
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Request, status
 from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 
 router = APIRouter(prefix="/chat", tags=["chat"])
+
+CHAT_RATE_LIMIT = 5
+CHAT_RATE_WINDOW_SECONDS = 60
+_chat_request_times: dict[str, deque[float]] = {}
+_chat_rate_limit_lock = Lock()
 
 RESUME_CONTEXT = """
 You are the portfolio assistant for Rondale Floyd M. Bufete.
@@ -38,20 +47,52 @@ class ChatRequest(BaseModel):
     messages: list[ChatMessage] = Field(min_length=1, max_length=12)
 
 
+def _client_identifier(request: Request) -> str:
+    forwarded_for = request.headers.get("x-forwarded-for")
+    if forwarded_for:
+        return forwarded_for.split(",", maxsplit=1)[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _enforce_chat_rate_limit(client_id: str) -> None:
+    now = monotonic()
+    cutoff = now - CHAT_RATE_WINDOW_SECONDS
+
+    with _chat_rate_limit_lock:
+        request_times = _chat_request_times.setdefault(client_id, deque())
+        while request_times and request_times[0] <= cutoff:
+            request_times.popleft()
+
+        if len(request_times) >= CHAT_RATE_LIMIT:
+            retry_after = max(1, ceil(CHAT_RATE_WINDOW_SECONDS - (now - request_times[0])))
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail=(
+                    f"You've reached the limit of {CHAT_RATE_LIMIT} messages per minute. "
+                    f"Please wait {retry_after} seconds before sending another message."
+                ),
+                headers={"Retry-After": str(retry_after)},
+            )
+
+        request_times.append(now)
+
+
 @router.post("")
-def chat(request: ChatRequest):
+def chat(payload: ChatRequest, request: Request):
     if not os.getenv("GEMINI_API_KEY"):
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="The assistant is not configured yet.")
 
-    if request.messages[-1].role != "user":
+    if payload.messages[-1].role != "user":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please ask a question first.")
+
+    _enforce_chat_rate_limit(_client_identifier(request))
 
     contents = [
         types.Content(
             role=message.role,
             parts=[types.Part(text=message.text)],
         )
-        for message in request.messages
+        for message in payload.messages
         if message.role in {"user", "model"}
     ]
 
