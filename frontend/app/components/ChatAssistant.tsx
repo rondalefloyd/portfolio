@@ -6,6 +6,7 @@ import ChatIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Grow from "@mui/material/Grow";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -59,13 +60,25 @@ export default function ChatAssistant() {
 
   return (
     <Box sx={{ position: "fixed", right: { xs: 12, sm: 24 }, bottom: { xs: 12, sm: 24 }, zIndex: 30 }}>
-      {open && (
+      <Grow
+        in={open}
+        timeout={{ enter: 240, exit: 180 }}
+        style={{ transformOrigin: "bottom right" }}
+        mountOnEnter
+        unmountOnExit
+      >
         <Paper
           elevation={0}
           sx={{
+            position: "absolute",
+            right: 0,
+            bottom: 0,
+            zIndex: 1,
             width: { xs: "calc(100vw - 24px)", sm: 360 },
             overflow: "hidden",
             boxShadow: chatShadow,
+            border: 1,
+            borderColor: "divider",
           }}
         >
           <Box
@@ -78,8 +91,8 @@ export default function ChatAssistant() {
             }}
             sx={{
               position: "relative",
-              bgcolor: "black",
-              color: "white",
+              bgcolor: "purple",
+              color: "#ffffff",
               px: 2,
               py: 1.5,
               cursor: "pointer",
@@ -89,9 +102,9 @@ export default function ChatAssistant() {
             <Typography sx={{ fontWeight: 700 }}>Ask about Rondale</Typography>
             <Typography variant="caption" sx={{ opacity: 0.75 }}>AI portfolio assistant</Typography>
           </Box>
-          <Stack spacing={1} sx={{ height: 320, overflowY: "auto", p: 1.5, bgcolor: "grey.50" }}>
+          <Stack spacing={1} sx={{ height: 320, overflowY: "auto", p: 1.5, bgcolor: "background.default" }}>
             {messages.map((message, index) => (
-              <Box key={`${message.role}-${index}`} sx={{ alignSelf: message.role === "user" ? "flex-end" : "flex-start", maxWidth: "88%", bgcolor: message.role === "user" ? "primary.main" : "white", color: message.role === "user" ? "white" : "text.primary", borderRadius: 2, px: 1.5, py: 1, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.14)" }}>
+              <Box key={`${message.role}-${index}`} sx={{ alignSelf: message.role === "user" ? "flex-end" : "flex-start", maxWidth: "88%", bgcolor: message.role === "user" ? "primary.main" : "background.paper", color: message.role === "user" ? "primary.contrastText" : "text.primary", border: 1, borderColor: message.role === "user" ? "transparent" : "divider", borderRadius: 2, px: 1.5, py: 1, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.14)" }}>
                 <Box
                   sx={{
                     overflowWrap: "anywhere",
@@ -113,8 +126,10 @@ export default function ChatAssistant() {
               <Box
                 sx={{
                   alignSelf: "flex-start",
-                  bgcolor: "white",
+                  bgcolor: "background.paper",
                   color: "text.secondary",
+                  border: 1,
+                  borderColor: "divider",
                   borderRadius: 2,
                   px: 1.5,
                   py: 1,
@@ -131,7 +146,7 @@ export default function ChatAssistant() {
             <IconButton type="submit" color="primary" disabled={!input.trim() || loading} aria-label="Send question"><SendIcon /></IconButton>
           </Box>
         </Paper>
-      )}
+      </Grow>
       {!open && (
         <Button
           onClick={() => setOpen(true)}
@@ -143,14 +158,13 @@ export default function ChatAssistant() {
             display: "flex",
             minWidth: { xs: 48, sm: "auto" },
             px: { xs: 1.5, sm: 2 },
-            bgcolor: "black",
-            color: "white",
+            bgcolor: "purple",
+            color: "#ffffff",
             boxShadow: chatShadow,
             fontWeight: 700,
             fontSize: "1rem",
             textTransform: "none",
             "& .MuiButton-startIcon": { m: { xs: 0, sm: "0 8px 0 -4px" } },
-            "&:hover": { bgcolor: "grey.900", boxShadow: "0 8px 24px rgba(0, 0, 0, 0.42)" },
           }}
         >
           <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>

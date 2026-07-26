@@ -184,7 +184,7 @@ export default function Home() {
         sx={{
           borderBottom: 1,
           borderColor: "divider",
-          bgcolor: "black",
+          bgcolor: "purple",
           color: "primary.contrastText",
         }}
       >
@@ -288,7 +288,15 @@ export default function Home() {
                   <Stack key={skill.label} spacing={0.75} sx={{ alignItems: "center", textAlign: "center" }}>
                     <Box
                       aria-hidden="true"
-                      sx={{ display: "flex", color: skill.color, fontSize: { xs: 30, sm: 34 } }}
+                      sx={{
+                        display: "flex",
+                        color: (theme) =>
+                          theme.palette.mode === "dark" &&
+                          (skill.label === "Django" || skill.label === "Next.js")
+                            ? "#ffffff"
+                            : skill.color,
+                        fontSize: { xs: 30, sm: 34 },
+                      }}
                     >
                       {skill.icon}
                     </Box>
@@ -343,10 +351,17 @@ export default function Home() {
                           borderRadius: 1,
                           overflow: "hidden",
                           bgcolor: "background.default",
+                          "& .company-logo": {
+                            filter: (theme) =>
+                              theme.palette.mode === "dark"
+                                ? "brightness(0) invert(1)"
+                                : "none",
+                          },
                         }}
                       >
                         {job.logo ? (
                           <Image
+                            className="company-logo"
                             src={job.logo}
                             alt={`${job.company} logo`}
                             width={72}
@@ -360,8 +375,10 @@ export default function Home() {
                               width: "100%",
                               height: "100%",
                               borderRadius: 0,
-                              bgcolor: "black",
-                              color: "primary.contrastText",
+                              bgcolor: (theme) =>
+                                theme.palette.mode === "dark" ? "#ffffff" : "#000000",
+                              color: (theme) =>
+                                theme.palette.mode === "dark" ? "#000000" : "#ffffff",
                               fontWeight: 700,
                             }}
                           >
