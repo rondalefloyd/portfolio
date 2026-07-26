@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 
 type Message = { role: "user" | "model"; text: string };
 const backendUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const chatShadow = "0 6px 20px rgba(0, 0, 0, 0.35)";
 
 export default function ChatAssistant() {
   const [open, setOpen] = useState(false);
@@ -59,7 +60,14 @@ export default function ChatAssistant() {
   return (
     <Box sx={{ position: "fixed", right: { xs: 12, sm: 24 }, bottom: { xs: 12, sm: 24 }, zIndex: 30 }}>
       {open && (
-        <Paper elevation={8} sx={{ width: { xs: "calc(100vw - 24px)", sm: 360 }, mb: 1.5, overflow: "hidden" }}>
+        <Paper
+          elevation={0}
+          sx={{
+            width: { xs: "calc(100vw - 24px)", sm: 360 },
+            overflow: "hidden",
+            boxShadow: chatShadow,
+          }}
+        >
           <Box
             role="button"
             tabIndex={0}
@@ -83,7 +91,7 @@ export default function ChatAssistant() {
           </Box>
           <Stack spacing={1} sx={{ height: 320, overflowY: "auto", p: 1.5, bgcolor: "grey.50" }}>
             {messages.map((message, index) => (
-              <Box key={`${message.role}-${index}`} sx={{ alignSelf: message.role === "user" ? "flex-end" : "flex-start", maxWidth: "88%", bgcolor: message.role === "user" ? "primary.main" : "white", color: message.role === "user" ? "white" : "text.primary", borderRadius: 2, px: 1.5, py: 1 }}>
+              <Box key={`${message.role}-${index}`} sx={{ alignSelf: message.role === "user" ? "flex-end" : "flex-start", maxWidth: "88%", bgcolor: message.role === "user" ? "primary.main" : "white", color: message.role === "user" ? "white" : "text.primary", borderRadius: 2, px: 1.5, py: 1, boxShadow: "0 2px 8px rgba(0, 0, 0, 0.14)" }}>
                 <Box
                   sx={{
                     overflowWrap: "anywhere",
@@ -110,6 +118,7 @@ export default function ChatAssistant() {
                   borderRadius: 2,
                   px: 1.5,
                   py: 1,
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.14)",
                 }}
               >
                 <Typography variant="body2">Thinking…</Typography>
@@ -132,16 +141,21 @@ export default function ChatAssistant() {
           sx={{
             ml: "auto",
             display: "flex",
+            minWidth: { xs: 48, sm: "auto" },
+            px: { xs: 1.5, sm: 2 },
             bgcolor: "black",
             color: "white",
-            boxShadow: 4,
+            boxShadow: chatShadow,
             fontWeight: 700,
             fontSize: "1rem",
             textTransform: "none",
-            "&:hover": { bgcolor: "grey.900" },
+            "& .MuiButton-startIcon": { m: { xs: 0, sm: "0 8px 0 -4px" } },
+            "&:hover": { bgcolor: "grey.900", boxShadow: "0 8px 24px rgba(0, 0, 0, 0.42)" },
           }}
         >
-          Ask about Rondale
+          <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+            Ask about Rondale
+          </Box>
         </Button>
       )}
     </Box>
